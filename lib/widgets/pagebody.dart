@@ -5,19 +5,19 @@ import 'package:soccer/widgets/teamstat.dart';
 import '../models/soccermodel.dart';
 import 'match_tile.dart';
 
-Widget pageBody(List<SoccerMatch> allMatches) {
+Widget pageBody(List<SoccerMatch>? allMatches) {
   return Column(
     children: [
       Expanded(
         flex: 2,
         child: Container(
-          child: Padding(
+          child: allMatches!.isEmpty?Text("no matches today"):Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 24.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                teamStat("Local Team", allMatches[0].home.logUrl,
+                teamStat("Local Team", allMatches![0].home.logUrl,
                     allMatches[0].home.name),
                 goalStat(allMatches[0].fixture.status.elapsedTime,
                     allMatches[0].goal.home, allMatches[0].goal.away),

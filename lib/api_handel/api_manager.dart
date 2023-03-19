@@ -19,63 +19,67 @@ class SoccerApi {
   };
 
   Future<List<SoccerMatch>> getLiveMatches() async {
-    var res = await http.get(apiUrl, headers: headers);
-
+    var res = await http.get(Uri.parse(apiUrl), headers: headers);
+    late List<SoccerMatch> matches=[];
+    print(apiUrl);
     var body;
     if (res.statusCode == 200) {
       body = jsonDecode(res.body);
       List<dynamic> matchesList = body['response'];
-      List<SoccerMatch> matches = matchesList
+       matches= matchesList
           .map((dynamic item) => SoccerMatch.fromJson(item))
           .toList();
-      return matches;
     }
+    return matches;
+
   }
   Future<List<InjuPlayer>> getInjured() async {
-    var res = await http.get("https://v3.football.api-sports.io/injuries?fixture=686314", headers: headers);
-
+    var res = await http.get(Uri.parse("https://v3.football.api-sports.io/injuries?fixture=686314"), headers: headers);
+    late List<InjuPlayer> matches=[];
     var body;
     if (res.statusCode == 200) {
       body = jsonDecode(res.body);
       List<dynamic> injList = body['response'];
       print("Api inju:$body");
 
-      List<InjuPlayer> matches = injList
+      matches = injList
           .map((dynamic item) => InjuPlayer.fromJson(item))
           .toList();
-      return matches;
     }
+    return matches;
+
   }
 
   Future<List<SoccerMatch>> getSeasonmatches(String year) async {
     var res = await http.get(
-        "https://v3.football.api-sports.io/fixtures?season=$year&league=39",
+        Uri.parse("https://v3.football.api-sports.io/fixtures?season=$year&league=39"),
         headers: headers);
-
+    late List<SoccerMatch> matches=[];
     var body;
     if (res.statusCode == 200) {
       body = jsonDecode(res.body);
       List<dynamic> matchesList = body['response'];
-      List<SoccerMatch> matches = matchesList
+       matches = matchesList
           .map((dynamic item) => SoccerMatch.fromJson(item))
           .toList();
-      return matches;
     }
+    return matches;
+
   }
 
   Future<List<SoccerMatch>> getSeason2021matches() async {
-    return getSeasonmatches("2021");
+    return getSeasonmatches("2022");
   }
 
   Future<List<SoccerMatch>> getSeason2020matches() async {
-    return getSeasonmatches("2020");
+    return getSeasonmatches("2021");
   }
 
   Future<List<SoccerMatch>> getSeason2019matches() async {
-    return getSeasonmatches("2019");
+    return getSeasonmatches("2020");
   }
 
   Future<List<SoccerMatch>> getSeason2018matches() async {
-    return getSeasonmatches("2018");
+    return getSeasonmatches("2019");
   }
 }
